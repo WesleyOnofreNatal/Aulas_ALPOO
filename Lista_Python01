@@ -1,0 +1,478 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "PythonList04ipynb",
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "riAXE24fUVEj"
+      },
+      "source": [
+        "**UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE**\n",
+        "\n",
+        "**DEPARTAMENTO DE ENGENHARIA MECÂNICA**\n",
+        "\n",
+        "*ALGORITMOS E LINGUAGEM DE PROGRAMAÇÃO ORIENTADA A OBJETOS*\n",
+        "\n",
+        "*PROF. CARLOS MAGNO*\n",
+        "\n",
+        "Quarta Lista de Exercícios\n",
+        "\n",
+        "Aluno:"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "G05By8WHUzxJ"
+      },
+      "source": [
+        "1 - Construa um programa que permita o registro de notas dos alunos de uma turma com o número de alunos fornecido pelo usuário, a matricula, nome e o registro de 3 notas de cada aluno. O programa deverá ser capaz de entregrar a caderneta com as seguintes informações: matricula, nome e as tres notas obtidas por cada aluno. Este registro tambem deve conter a media aritimetica das tres notas, a informação de status ( aprovado ou reprovado ), sua maior nota e menor nota. Considere média maior ou igual a 7.0 como aprovado, para o contrário reprovado. Como informação adcional o Registro deve informar que o aluno laureado da turma, o número de alunos aprovados e reprovados, com o respectivo percentual da turma."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "y3J2l25cXnD6",
+        "outputId": "773dac2d-2a49-43fa-e8b0-43f97e06025d",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 478
+        }
+      },
+      "source": [
+        "\n",
+        "\n",
+        "def registrar_alunos():\n",
+        "    alunos = []\n",
+        "    n = int(input(\"Digite o número de alunos na turma: \"))\n",
+        "\n",
+        "    for _ in range(n):\n",
+        "        matricula = input(\"Digite a matrícula do aluno: \")\n",
+        "        nome = input(\"Digite o nome do aluno: \")\n",
+        "        notas = []\n",
+        "        for i in range(1, 4):\n",
+        "            nota = float(input(f\"Digite a {i}ª nota do aluno: \"))\n",
+        "            notas.append(nota)\n",
+        "\n",
+        "        alunos.append({\n",
+        "            \"matricula\": matricula,\n",
+        "            \"nome\": nome,\n",
+        "            \"notas\": notas\n",
+        "        })\n",
+        "\n",
+        "    return alunos\n",
+        "\n",
+        "def calcular_media(notas):\n",
+        "    return sum(notas) / len(notas)\n",
+        "\n",
+        "def determinar_status(media):\n",
+        "    return \"Aprovado\" if media >= 7.0 else \"Reprovado\"\n",
+        "\n",
+        "def gerar_relatorio(alunos):\n",
+        "    total_aprovados = 0\n",
+        "    total_reprovados = 0\n",
+        "    aluno_laureado = None\n",
+        "    maior_media = -1\n",
+        "\n",
+        "    print(\"\\nCaderneta de Notas:\")\n",
+        "    for aluno in alunos:\n",
+        "        matricula = aluno[\"matricula\"]\n",
+        "        nome = aluno[\"nome\"]\n",
+        "        notas = aluno[\"notas\"]\n",
+        "        media = calcular_media(notas)\n",
+        "        maior_nota = max(notas)\n",
+        "        menor_nota = min(notas)\n",
+        "        status = determinar_status(media)\n",
+        "\n",
+        "        if status == \"Aprovado\":\n",
+        "            total_aprovados += 1\n",
+        "        else:\n",
+        "            total_reprovados += 1\n",
+        "\n",
+        "        if media > maior_media:\n",
+        "            maior_media = media\n",
+        "            aluno_laureado = aluno\n",
+        "\n",
+        "        print(f\"\\nMatrícula: {matricula}\")\n",
+        "        print(f\"Nome: {nome}\")\n",
+        "        print(f\"Notas: {notas}\")\n",
+        "        print(f\"Média: {media:.2f}\")\n",
+        "        print(f\"Status: {status}\")\n",
+        "        print(f\"Maior Nota: {maior_nota}\")\n",
+        "        print(f\"Menor Nota: {menor_nota}\")\n",
+        "\n",
+        "    total_alunos = len(alunos)\n",
+        "    percentual_aprovados = (total_aprovados / total_alunos) * 100\n",
+        "    percentual_reprovados = (total_reprovados / total_alunos) * 100\n",
+        "\n",
+        "    print(\"\\nResumo da Turma:\")\n",
+        "    print(f\"Aluno Laureado: {aluno_laureado['nome']} (Matrícula: {aluno_laureado['matricula']}) com média {maior_media:.2f}\")\n",
+        "    print(f\"Número de alunos aprovados: {total_aprovados} ({percentual_aprovados:.2f}%)\")\n",
+        "    print(f\"Número de alunos reprovados: {total_reprovados} ({percentual_reprovados:.2f}%)\")\n",
+        "\n",
+        "# Função principal\n",
+        "def main():\n",
+        "    alunos = registrar_alunos()\n",
+        "    gerar_relatorio(alunos)\n",
+        "\n",
+        "if __name__ == \"__main__\":\n",
+        "    main()\n"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Digite o número de alunos na turma: 5\n",
+            "Digite a matrícula do aluno: 2\n",
+            "Digite o nome do aluno: 2\n",
+            "Digite a 1ª nota do aluno: 2\n",
+            "Digite a 2ª nota do aluno: 2\n",
+            "Digite a 3ª nota do aluno: 6\n",
+            "Digite a matrícula do aluno: 5\n",
+            "Digite o nome do aluno: 0\n",
+            "Digite a 1ª nota do aluno: a\n"
+          ]
+        },
+        {
+          "output_type": "error",
+          "ename": "ValueError",
+          "evalue": "could not convert string to float: 'a'",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mValueError\u001b[0m                                Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-2-4d341bbba93f>\u001b[0m in \u001b[0;36m<cell line: 74>\u001b[0;34m()\u001b[0m\n\u001b[1;32m     73\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     74\u001b[0m \u001b[0;32mif\u001b[0m \u001b[0m__name__\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m\"__main__\"\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 75\u001b[0;31m     \u001b[0mmain\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;32m<ipython-input-2-4d341bbba93f>\u001b[0m in \u001b[0;36mmain\u001b[0;34m()\u001b[0m\n\u001b[1;32m     69\u001b[0m \u001b[0;31m# Função principal\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     70\u001b[0m \u001b[0;32mdef\u001b[0m \u001b[0mmain\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 71\u001b[0;31m     \u001b[0malunos\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mregistrar_alunos\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     72\u001b[0m     \u001b[0mgerar_relatorio\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0malunos\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     73\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m<ipython-input-2-4d341bbba93f>\u001b[0m in \u001b[0;36mregistrar_alunos\u001b[0;34m()\u001b[0m\n\u001b[1;32m      8\u001b[0m         \u001b[0mnotas\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m[\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      9\u001b[0m         \u001b[0;32mfor\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mrange\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m4\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 10\u001b[0;31m             \u001b[0mnota\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mfloat\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0minput\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34mf\"Digite a {i}ª nota do aluno: \"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     11\u001b[0m             \u001b[0mnotas\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mappend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mnota\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     12\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mValueError\u001b[0m: could not convert string to float: 'a'"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "0BTfrFSBXKl2"
+      },
+      "source": [
+        "**NOTA: Todos os dados fornecidos para execução dos seguintes exercícios devem ser gerados randomicamente**"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "PtjshOSlWtjJ"
+      },
+      "source": [
+        "2 - Gerar randomicamente uma lista( lista A ) de 20 elementos e executar as seguintes operações:\n",
+        "\n",
+        "a ) Atribui a uma nova lista ( lista B ) com os elemento da lista A em ordem inversa\n",
+        "\n",
+        "b ) Atribuir a uma nova lista ( lista C ) a soma dos elementos da lista A com a lista B\n",
+        "\n",
+        "c ) Atribuir a uma nova lista ( lista D ) o valor correspondente a seu fatorial"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rIn666mKWseZ"
+      },
+      "source": [
+        "import random\n",
+        "import math\n",
+        "\n",
+        "def gerar_lista_aleatoria(n, limite=100):\n",
+        "    return [random.randint(0, limite) for _ in range(n)]\n",
+        "\n",
+        "lista_A = gerar_lista_aleatoria(20)\n",
+        "print(f\"Lista A: {lista_A}\")\n",
+        "\n",
+        "lista_B = lista_A[::-1]\n",
+        "print(f\"Lista B (inversa da Lista A): {lista_B}\")\n",
+        "\n",
+        "lista_C = [a + b for a, b in zip(lista_A, lista_B)]\n",
+        "print(f\"Lista C (soma dos elementos correspondentes): {lista_C}\")\n",
+        "\n",
+        "lista_D = [math.factorial(x) for x in lista_C]\n",
+        "print(f\"Lista D (fatorial dos elementos de Lista C): {lista_D}\")\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Lmw50UHRY-S-"
+      },
+      "source": [
+        "3 - Gerar duas listas ( lsta A e Lista B ). A lista A só devera aceitar números divisíveis por 4 e a lista B só deverá aceitar números divisíveis por 5. Costruir uma nova lista ( lista C ) que agregue os elementos da lista A e lista B"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "I-nwzlbcZsLj"
+      },
+      "source": [
+        "import random\n",
+        "\n",
+        "def gerar_lista_divisivel(n, divisor, tamanho):\n",
+        "    return [random.randint(0, 100) // divisor * divisor for _ in range(tamanho)]\n",
+        "\n",
+        "\n",
+        "tamanho_lista = 20\n",
+        "lista_A = gerar_lista_divisivel(tamanho_lista, 4, tamanho_lista)\n",
+        "lista_B = gerar_lista_divisivel(tamanho_lista, 5, tamanho_lista)\n",
+        "\n",
+        "print(f\"Lista A (números divisíveis por 4): {lista_A}\")\n",
+        "print(f\"Lista B (números divisíveis por 5): {lista_B}\")\n",
+        "\n",
+        "lista_C = lista_A + lista_B\n",
+        "\n",
+        "print(f\"Lista C (agregação de Lista A e Lista B): {lista_C}\")\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "3JPkri0eZt4d"
+      },
+      "source": [
+        "4 - Gerar uma lista ( lista A ) de tamanho 10 com valores entre 1 e 20. Construa uma nova lista ( lista B - matriz de 3 colunas ) que tenha como elementos da primeira coluna os elementos da lista A elevados ao quadrado. Os elementos da segunda coluna os elementos da lista A * 5 e finalmente os elementos da terceira coluna o fatorial dos elementos da lista A"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Est1ZpRxcNOX"
+      },
+      "source": [
+        "import random\n",
+        "import math\n",
+        "\n",
+        "lista_A = [random.randint(1, 20) for _ in range(10)]\n",
+        "print(f\"Lista A: {lista_A}\")\n",
+        "\n",
+        "coluna_1 = [x ** 2 for x in lista_A]\n",
+        "\n",
+        "coluna_2 = [x * 5 for x in lista_A]\n",
+        "\n",
+        "coluna_3 = [math.factorial(x) for x in lista_A]\n",
+        "\n",
+        "lista_B = list(zip(coluna_1, coluna_2, coluna_3))\n",
+        "\n",
+        "print(\"\\nLista B (matriz de 3 colunas):\")\n",
+        "for linha in lista_B:\n",
+        "    print(linha)\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "U8icPXtucRfU"
+      },
+      "source": [
+        "5 - Gerar uma lista aninhada ( matriz 4 x 4 ) com valores entre 10 e 50 e apresentar o somatório dos elementos da diagonal pricipal e da diagonal secundária da matriz"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-cmOg5PBcjRt"
+      },
+      "source": [
+        "import random\n",
+        "\n",
+        "def gerar_matriz_4x4():\n",
+        "    return [[random.randint(10, 50) for _ in range(4)] for _ in range(4)]\n",
+        "\n",
+        "def calcular_diagonais(matriz):\n",
+        "    diagonal_principal = sum(matriz[i][i] for i in range(4))\n",
+        "    diagonal_secundaria = sum(matriz[i][3 - i] for i in range(4))\n",
+        "    return diagonal_principal, diagonal_secundaria\n",
+        "\n",
+        "matriz = gerar_matriz_4x4()\n",
+        "\n",
+        "diagonal_principal, diagonal_secundaria = calcular_diagonais(matriz)\n",
+        "\n",
+        "print(\"Matriz 4x4:\")\n",
+        "for linha in matriz:\n",
+        "    print(linha)\n",
+        "\n",
+        "print(f\"\\nSomatório da diagonal principal: {diagonal_principal}\")\n",
+        "print(f\"Somatório da diagonal secundária: {diagonal_secundaria}\")\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "jNMypCB1ckAT"
+      },
+      "source": [
+        "6 - Gerar uma lista aninhada ( matriz 10 x 7 ) com valores entre 20 e 60. Apresente o numero total de elementos pares e impáres da matriz, assim como o somatório dos mesmos."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GF-7HQXVdSfm",
+        "outputId": "2fadcec6-59c5-444e-9f8b-82f9e11d6f1e",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "import random\n",
+        "\n",
+        "def gerar_matriz_10x7():\n",
+        "    return [[random.randint(20, 60) for _ in range(7)] for _ in range(10)]\n",
+        "\n",
+        "def calcular_pares_impares(matriz):\n",
+        "    pares = 0\n",
+        "    impares = 0\n",
+        "    soma_pares = 0\n",
+        "    soma_impares = 0\n",
+        "\n",
+        "    for linha in matriz:\n",
+        "        for valor in linha:\n",
+        "            if valor % 2 == 0:\n",
+        "                pares += 1\n",
+        "                soma_pares += valor\n",
+        "            else:\n",
+        "                impares += 1\n",
+        "                soma_impares += valor\n",
+        "\n",
+        "    return pares, soma_pares, impares, soma_impares\n",
+        "\n",
+        "matriz = gerar_matriz_10x7()\n",
+        "\n",
+        "pares, soma_pares, impares, soma_impares = calcular_pares_impares(matriz)\n",
+        "\n",
+        "print(\"Matriz 10x7:\")\n",
+        "for linha in matriz:\n",
+        "    print(linha)\n",
+        "\n",
+        "print(f\"\\nNúmero total de elementos pares: {pares}\")\n",
+        "print(f\"Somatório dos elementos pares: {soma_pares}\")\n",
+        "print(f\"Número total de elementos ímpares: {impares}\")\n",
+        "print(f\"Somatório dos elementos ímpares: {soma_impares}\")\n"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Matriz 10x7:\n",
+            "[41, 42, 41, 25, 51, 32, 41]\n",
+            "[31, 52, 35, 46, 48, 33, 23]\n",
+            "[29, 58, 40, 41, 23, 52, 40]\n",
+            "[27, 57, 48, 47, 42, 52, 52]\n",
+            "[54, 35, 25, 42, 36, 35, 55]\n",
+            "[45, 53, 50, 36, 43, 23, 20]\n",
+            "[47, 40, 54, 51, 44, 58, 43]\n",
+            "[57, 43, 43, 41, 43, 56, 56]\n",
+            "[52, 30, 34, 25, 41, 25, 58]\n",
+            "[40, 34, 30, 37, 28, 48, 25]\n",
+            "\n",
+            "Número total de elementos pares: 34\n",
+            "Somatório dos elementos pares: 1504\n",
+            "Número total de elementos ímpares: 36\n",
+            "Somatório dos elementos ímpares: 1380\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Excercicio em sala de aula 18.04\n",
+        "\n",
+        "import random as rd\n",
+        "\n",
+        "ma = []\n",
+        "mb = []\n",
+        "mc = []\n",
+        "\n",
+        "#Criando Matriz e preenchendo\n",
+        "for i in range(3):\n",
+        "  TEMP = []\n",
+        "  for j in range(3):\n",
+        "    TEMP.append(0)\n",
+        "  mc.append(TEMP)\n",
+        "\n",
+        "for i in range(3):\n",
+        "  TEMP = []\n",
+        "  for j in range(3):\n",
+        "    TEMP.append(rd.randint(0,10))\n",
+        "  ma.append(TEMP)\n",
+        "\n",
+        "for i in range(3):\n",
+        "  TEMP = []\n",
+        "  for j in range(3):\n",
+        "    TEMP.append(rd.randint(0,10))\n",
+        "  mb.append(TEMP)\n",
+        "\n",
+        "\n",
+        "#Realiza multiplicação e atribui valor para a Matriz mc\n",
+        "for i in range(len(ma)):\n",
+        "  for j in range(len(ma[i])):\n",
+        "    resultado = ma[i][j] * mb[i][j]\n",
+        "    mc.append(resultado)\n",
+        "\n",
+        "#Exibir valores\n",
+        "for i in range(len(ma)):\n",
+        "  for j in range(len(ma[i])):\n",
+        "    print(mc[i][j])\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "4dzaZpNFAKyn",
+        "outputId": "02e052b9-011c-44dc-89aa-eeb16cc29841",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "0\n",
+            "0\n",
+            "0\n",
+            "0\n",
+            "0\n",
+            "0\n",
+            "0\n",
+            "0\n",
+            "0\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
